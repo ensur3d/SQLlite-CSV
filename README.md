@@ -49,7 +49,7 @@ commands are headless and need **only Python 3** (no display, no PyQt6).
 |---------|--------------|:------------:|
 | `./run.sh` (or `./run.sh gui`) | Launch the desktop app | yes (auto-installed) |
 | `./run.sh install` | Create the venv + install dependencies, then exit | yes |
-| `./run.sh tables DB` | List the user tables in a database | no |
+| `./run.sh tables DB` | List the tables in a database | no |
 | `./run.sh db2csv DB --table T [-o out.csv]` | Export one table to CSV | no |
 | `./run.sh csv2db FILE.csv [--table T] [-o new.db]` | Build a database from a CSV | no |
 
