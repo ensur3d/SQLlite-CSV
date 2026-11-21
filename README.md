@@ -12,6 +12,10 @@ Navigate to dir after cloning
 ```bash
 cd SQLlite-CSV.git
 ```
+Make sure the script is executable
+```bash
+chmod +x run.sh
+```
 ## Quick start
 
 ```bash
@@ -21,9 +25,6 @@ cd SQLlite-CSV.git
 That's it. On the first run `run.sh` creates a virtual environment in `.venv/`,
 installs the one dependency (PyQt6), and launches the desktop app. Later runs
 skip the install step and start immediately.
-
-> Make sure the script is executable (it ships as such; if you copied it, run
-> `chmod +x run.sh` once).
 
 ## What it does
 
