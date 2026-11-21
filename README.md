@@ -1,98 +1,67 @@
-# SQL ↔ CSV Converter
+# SQL ↔ CSV Converter (portable build)
 
-A PyQt6 desktop application for importing SQLite databases, viewing table data, and converting between SQL and CSV formats.
+A self-contained copy of the SQL ↔ CSV Converter. Copy this folder anywhere,
+make sure Python 3 is installed, and run:
 
-## Features
+    ./run.sh
 
-- **Open SQLite databases** — Load `.db`, `.sqlite`, and `.sqlite3` files
-- **Browse tables** — Select tables from the database in a sidebar
-- **View table data** — Display table contents in an interactive, sortable grid
-- **Import CSV** — Load CSV files into the grid viewer
-- **Export to CSV** — Save the current table view as a CSV file
-- **Import CSV into existing database** — Insert grid data into a table within an already-open database
-- **Build database from CSV** — Create a brand new SQLite database directly from a CSV file
-- **Preview CSV** — View the CSV representation of the current data before exporting
-- **Threaded operations** — Database queries run in background threads to keep the UI responsive
+On first run it creates a `.venv/` inside this folder, installs PyQt6, and
+launches the GUI. The headless commands below need only Python 3 (no display,
+no PyQt6).
 
-## Requirements
+## Commands
 
-- Python 3.8+
-- PyQt6 (install via pip)
+| Command | What it does | Needs PyQt6? |
+|---------|--------------|:------------:|
+| `./run.sh` (or `./run.sh gui`) | Launch the desktop app | yes (auto-installed) |
+| `./run.sh install` | Create the venv + install dependencies, then exit | yes |
+| `./run.sh tables DB` | List the user tables in a database | no |
+| `./run.sh db2csv DB --table T [-o out.csv]` | Export one table to CSV | no |
+| `./run.sh csv2db FILE.csv [--table T] [-o new.db]` | Build a database from a CSV | no |
 
-## Prerequisites: Install Python3
-
-Python is usually pre-installed. Open your terminal and type `python3 --version`.
-**Debian/Ubuntu**
-```bash
-sudo apt update
-sudo apt install python3 python3-pip python3-venv
-```
-**Fedora/RHEL**
-```bash
-sudo dnf install python3 python3-pip python3-virtualenv
-```
-**Arch Linux**
-```bash
-sudo pacman -S python python-pip python-virtualenv
-```
-
-
-## Installation
-
-Clone or navigate to the project directory
-```bash
-cd SQLlite_CSV
-```
-Create a virtual environment (recommended)
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-## Usage
+### Examples
 
 ```bash
-cd SQLlite_CSV
-source .venv/bin/activate    # if using a virtual environment
-python3 SQLlite_CSV.py
+./run.sh tables sales.db
+./run.sh db2csv sales.db --table customers
+./run.sh csv2db data.csv --table orders -o orders.db
 ```
 
-### Controls
+## GUI controls
 
 | Button | Action |
 |--------|--------|
 | 📂 Open SQL Database | Open a `.db`, `.sqlite`, or `.sqlite3` file |
-| 📥 Import CSV | Load a CSV file into the grid (no database required) |
+| 📥 Import CSV | Load a CSV into the grid (no database required) |
 | 📤 Export to CSV | Save the current grid data as a CSV file |
-| 📤 Import CSV to DB | Insert grid data into a table in the currently open database |
+| 📤 Import CSV to DB | Insert grid data into a table in an open database |
 | 📦 Build DB from CSV | Create a new SQLite database from a CSV file |
-| 👁️ Preview CSV | Preview the CSV-formatted data in a dialog |
-| 🗑️ Clear State | Close the database, clear grid and table list |
+| 👁️ Preview CSV | Preview the CSV-formatted data before saving |
+| 🗑️ Clear State | Close the database, clear the grid and table list |
 
-### Workflow examples
+## Features
 
-**Database → CSV:** Open a database → select a table → Export to CSV
+- Open / browse / view SQLite databases; import & export CSV
+- Automatic type inference (INTEGER / REAL / TEXT)
+- Robust CSV handling (BOM, ragged rows, duplicate/empty headers)
+- Headless CLI for scripting
 
-**CSV → Database (new):** Build DB from CSV → select CSV → choose save location → enter table name
+## Requirements
 
-**CSV → Database (existing):** Import CSV → Import CSV to DB → enter table name
-
-**Browse data:** Open a database → click tables in the sidebar → view data in the grid
+- Python 3.8+ (headless commands work with any modern Python 3)
+- PyQt6 — GUI only; `run.sh` installs it automatically into `.venv/`
 
 ## Project structure
 
 ```
-SQLlite_CSV/
-├── SQLlite_CSV.py           # Main application
-├── requirements.txt     # Python dependencies
-└── README.md
+dist/
+├── run.sh              # launcher — the way to run it
+├── sqlcsv.py           # application (GUI + headless CLI)
+├── requirements.txt    # dependencies (PyQt6)
+├── README.md
+└── LICENSE
 ```
 
 ## License
 
-MIT
+This project is open source and available under the MIT License.
